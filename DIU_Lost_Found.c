@@ -10,7 +10,7 @@
 #define Max_stack_size 50
 #define Admin_pass "diu123"
 
-
+//here i usee  Structure with info
 struct LostItem {
     char itemName[Max_name_len];
     char ownerName[Max_name_len];
@@ -20,15 +20,15 @@ struct LostItem {
     struct LostItem* next;
 };
 
-
+// here i use circular queue for waiting line 
 char waitingQueue[Max_queue_size][Max_name_len];
 int queueFront = -1, queueRear = -1;
 
-
+//here iuse stack for activity logging.
 char activityLog[Max_stack_size][100];
 int stackTop = -1;
 
-
+// linked list of the lost items.,
 struct LostItem* head = NULL;
 int itemCount = 0;
 char categories[Max_categories][20] = {"Books", "Mobile", "Keys", "Others"};
@@ -39,7 +39,7 @@ void clearScreen() {
     system("cls");
 }
 
-
+ //to push new activity.
 void pushActivity(const char* message) {
     if (stackTop >= Max_stack_size - 1) {
         printf("Activity log overflow. Unable to log new activities.\n");
@@ -49,15 +49,14 @@ void pushActivity(const char* message) {
     strcpy(activityLog[stackTop], message);
 }
 
-
+//peek in stack
 char* peekActivity() {
     if (stackTop == -1) {
         return "No recent activity.";
     }
     return activityLog[stackTop];
 }
-
-
+//enque
 void enqueuePerson(const char* name) {
     if ((queueRear + 1) % Max_queue_size == queueFront) {
         printf("The waiting line is full. Please try again later.\n");
@@ -74,6 +73,7 @@ void enqueuePerson(const char* name) {
     pushActivity(logMessage);
     printf("Added to queue at position: %d\n", queueRear);
 }
+
 
 
 void dequeuePerson() {
